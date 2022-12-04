@@ -30,7 +30,6 @@ void s() {
         int min_lower_bound = min(min_f, min_s);
         int max_lower_bound = max(min_f, min_s);
         int min_upper_bound = min(max_f, max_s);
-        int max_upper_bound = max(max_f, max_s);
 
         // Try first contain second
         if (max_f >= max_s && min_f <= min_s)
