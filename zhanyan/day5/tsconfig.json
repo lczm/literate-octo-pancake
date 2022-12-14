@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "module": "nodenext",
+  },
+  "files": ["index.ts" ],
+}

@@ -1,0 +1,12 @@
+{
+  "name": "aoczyday5",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "AOC Day 5 Solution in TypeScript",
+  "main": "index.ts",
+  "scripts": {
+    "test": "node index.js input.txt"
+  },
+  "author": "",
+  "license": "MIT"
+}
