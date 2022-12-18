@@ -29,7 +29,8 @@ vector<vector<int>> get_grid(string file_name) {
     return grid;
 }
 
-void print_grid(vector<vector<int>> grid) {
+template <typename T>
+void print_grid(vector<vector<T>> grid) {
     for (auto g : grid) {
         for (auto gg : g) {
             cout << gg;
