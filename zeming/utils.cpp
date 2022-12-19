@@ -39,3 +39,10 @@ void print_grid(vector<vector<T>> grid) {
     }
 }
 
+vector<string> split_strings(string str) {
+    vector<string> v;
+    istringstream iss(str);
+    for (string s; iss >> s;)
+        v.push_back(s);
+    return v;
+}
