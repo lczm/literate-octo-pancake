@@ -14,6 +14,13 @@ vector<string> get_lines(string file_name) {
     return lines;
 }
 
+string get_string_from_vector(vector<string> v) {
+    string s;
+    for (const auto e : v)
+        s += e;
+    return s;
+}
+
 // Assumes the input is all integers
 vector<vector<int>> get_grid(string file_name) {
     string line;
