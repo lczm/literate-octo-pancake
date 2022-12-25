@@ -36,6 +36,20 @@ vector<vector<int>> get_grid(string file_name) {
     return grid;
 }
 
+vector<vector<char>> get_grid_char(string file_name) {
+    string line;
+    ifstream file(file_name);
+    vector<vector<char>> grid;
+
+    while (getline(file, line)) {
+        vector<char> g;
+        for (char c : line)
+            g.push_back(c);
+        grid.push_back(g);
+    }
+    return grid;
+}
+
 template <typename T>
 void print_grid(vector<vector<T>> grid) {
     for (auto g : grid) {
@@ -53,3 +67,8 @@ vector<string> split_strings(string str) {
         v.push_back(s);
     return v;
 }
+
+const static vector<pair<int, int>> directions_four = {
+    {1, 0}, {-1, 0}, {0, -1}, {0, 1},
+};
+
