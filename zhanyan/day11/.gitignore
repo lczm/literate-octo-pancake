@@ -1,0 +1,6 @@
+target/
+.settings
+Session.vim*
+.classpath
+.projections.json
+.project
