@@ -69,6 +69,8 @@ vector<string> split_strings(string str) {
 }
 
 const static vector<pair<int, int>> directions_four = {
-    {1, 0}, {-1, 0}, {0, -1}, {0, 1},
+    {1, 0},
+    {-1, 0},
+    {0, -1},
+    {0, 1},
 };
-
