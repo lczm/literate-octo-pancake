@@ -5,7 +5,7 @@
 
 import sys
 import re
-from typing import Dict, List, Set
+from typing import Dict, FrozenSet, List, Set, Tuple
 
 
 class Valve:
@@ -34,33 +34,48 @@ class Valve:
 def optimize(
     valves: Dict[str, Valve],
     current: str,
-    on_valves: Set[str] = set(),
+    on_valves: FrozenSet[str] = frozenset(),
     time_left: int = 30,
+    memo: Dict[Tuple[str, FrozenSet[str], int], int] = {},
 ) -> int:
     """Traverse the given valves to find optimal order to toggle valves & release the most pressure."""
-    # base case: no more time
-    if time_left <= 0:
+    # base case: no more time or all valves on
+    if time_left <= 0 or len(on_valves) >= len(valves):
         return 0
+    # use cached result if present
+    memo_key = (current, on_valves, time_left)
+    if memo_key in memo:
+        return memo[memo_key]
 
     # recursively explore opening & not opening the valve
     max_pressure = 0
     for adjacent in valves[current].connected:
-        # skip already on valves
-        if adjacent in on_valves:
-            continue
-
-        # pressure released if the valve is open
-        current_release = valves[current].flowrate * (time_left - 1)
+        open_pressure = 0
+        # optimization: skip opening valves that have no flowrate
+        if current not in on_valves and valves[current].flowrate > 0:
+            # explore opening the valve. T-2 needed to open & travel to next valves
+            open_pressure = (
+                optimize(
+                    valves,
+                    adjacent,
+                    on_valves | frozenset((current,)),
+                    time_left - 2,
+                    memo,
+                )
+                # calculate pressure relief brought on by current valve.
+                # T-1 to account for time need to open valve
+                + valves[current].flowrate * (time_left - 1)
+            )
 
         max_pressure = max(
             max_pressure,
-            # explore opening the valve. T-2 needed to open & travel to next valve
-            optimize(valves, adjacent, set(current, *on_valves), time_left - 2)
-            + current_release,
-            # explore opening the valve. T-1 needed to travel to next valve
-            optimize(valves, adjacent, on_valves.copy(), time_left - 1),
+            open_pressure,
+            # explore leaving the valve untouched. T-1 needed to travel to next valve
+            optimize(valves, adjacent, on_valves, time_left - 1, memo),
         )
 
+    # cache result for future calls
+    memo[memo_key] = max_pressure
     return max_pressure
 
 
@@ -71,3 +86,6 @@ if __name__ == "__main__":
         )
     with open(sys.argv[1]) as f:
         valves = {v.name: v for v in [Valve.parse(l) for l in f.readlines()]}
+
+    # part 1
+    print(optimize(valves, "AA", time_left=30))
